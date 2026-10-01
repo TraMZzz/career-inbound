@@ -1,0 +1,23 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+env:
+  # Course tools, pinned to a version for the whole cohort (scripts/set-owner.sh fills in the owner).
+  CI_TOOLS: git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools
+  # Current capstone stage: set a repository variable CAPSTONE_STAGE (Settings -> Variables), default 1.
+  STAGE: ${{ vars.CAPSTONE_STAGE || '1' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+      - run: uv sync
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run pytest -q
+      - name: course self-check (artifacts only)
+        run: uvx --from "$CI_TOOLS" ci-check --stage "$STAGE"

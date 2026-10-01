@@ -1,0 +1,3 @@
+{"id": "g-001", "input": "приклад звичайного запиту", "context": {}, "expect": {"contains": ["очікуване слово"]}, "tags": ["core"]}
+{"id": "g-002", "input": "", "context": {}, "expect": {"not_contains": ["вигадана відповідь"]}, "tags": ["edge"]}
+{"id": "g-003", "input": "запит, відповідь на який має спиратися на документ", "context": {}, "expect": {"sources_include": ["doc-12"]}, "tags": ["core"]}
