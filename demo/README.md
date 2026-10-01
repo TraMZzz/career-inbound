@@ -53,3 +53,10 @@ gateway -> checkout -> cart -> cart-cache (Redis)
 ```bash
 uv run python -m demo_shop summary   # що за інцидент за кожним алертом
 ```
+
+## Стан по уроках
+
+| Тег | Що додано |
+|---|---|
+| `lesson-00` | порожній FastAPI-скелет, demo-shop і його дані |
+| `lesson-01` | правила для агентів (`AGENTS.md`, `CLAUDE.md`), опис проєкту з метрикою, AI-лог, `GET /health` |
