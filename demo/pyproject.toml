@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Reference project of the Career Inbound course: an on-call assistant for the demo-shop service."
 requires-python = ">=3.12"
 dependencies = [
+    "anthropic>=1.9,<2",
     "fastapi>=0.142,<1",
     "uvicorn>=0.54,<1",
 ]

@@ -10,12 +10,14 @@
 - `make test` — тести, мають проходити без мережі і без API-ключа
 - `make lint` — ruff check + format check; запускати перед кожним комітом
 - `make dev` — API на :8000
-- `make data` — перегенерувати `data/demo-shop/*.jsonl`
+- `make data` — перегенерувати `data/demo-shop/*.jsonl` і `evals/golden.jsonl`
+- `make eval` — golden set проти запущеного API (`make dev`); результати комітяться в `evals/`
 
 ## Структура
-- `app/` — API і логіка copilot
+- `app/` — API і логіка copilot: `copilot.py` (пайплайн), `llm.py` (виклик моделі), `prompts.py`, `pricing.py`
 - `demo_shop/` — генератор синтетичних даних (`generator.py`) і read-only доступ до них (`store.py`)
 - `data/demo-shop/` — згенеровані дані; руками не редагувати, лише через `make data`
+- `evals/golden.jsonl` — golden set; генерується з ground truth + крайові кейси з `EDGE_CASES` у генераторі
 - `tests/` — тести
 
 ## Правила

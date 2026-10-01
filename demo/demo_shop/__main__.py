@@ -1,4 +1,4 @@
-"""python -m demo_shop generate   -> data/demo-shop/*.jsonl
+"""python -m demo_shop generate   -> data/demo-shop/*.jsonl and evals/golden.jsonl
 python -m demo_shop summary    -> one line per incident (ground truth)
 """
 
@@ -22,7 +22,7 @@ def main() -> None:
         w = write_all(ROOT, args.seed)
         print(
             f"{len(w.incidents)} incidents, {len(w.logs)} log lines, {len(w.metrics)} metric rows, "
-            f"{len(w.deploys)} deploys -> data/demo-shop/"
+            f"{len(w.deploys)} deploys -> data/demo-shop/, golden set -> evals/golden.jsonl"
         )
     else:
         w = build_world(args.seed)

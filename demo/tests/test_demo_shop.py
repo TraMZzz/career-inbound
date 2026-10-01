@@ -6,7 +6,7 @@ from datetime import timedelta
 
 import pytest
 
-from demo_shop.generator import SPECS, build_world
+from demo_shop.generator import SPECS, build_world, golden_rows
 from demo_shop.store import Store, parse_ts
 
 # (where the evidence lives, text) - at WARN level or above, except deploys which live in deploys.jsonl
@@ -80,3 +80,19 @@ def test_alert_metric_breaches_threshold(world, spec):
 def test_ground_truth_not_leaked_into_observability_data(world):
     for row in world.logs + world.metrics + world.deploys:
         assert "incident" not in row and "category" not in row
+
+
+def test_golden_set_shape(world):
+    rows = golden_rows(world)
+    assert 15 <= len(rows) <= 30
+    assert len({r["id"] for r in rows}) == len(rows)
+    assert sum("edge" in r["tags"] for r in rows) >= 2
+
+
+def test_golden_service_names_do_not_collide(world):
+    """'сервіс-причина: cart' is a substring of 'сервіс-причина: cart-cache': golden must guard against it."""
+    rows = {r["id"]: r for r in golden_rows(world)}
+    cart_rows = [r for r in rows.values() if "сервіс-причина: cart" in r["expect"].get("contains", [])]
+    assert cart_rows
+    for r in cart_rows:
+        assert "сервіс-причина: cart-cache" in r["expect"]["not_contains"]

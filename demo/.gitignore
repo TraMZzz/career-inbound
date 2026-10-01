@@ -3,6 +3,3 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .env
-evals/results*.json
-evals/perf.json
-evals/attack.json

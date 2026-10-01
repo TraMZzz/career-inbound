@@ -17,7 +17,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-from .topology import APP_SERVICES
+from .topology import APP_SERVICES, SERVICES
 
 SEED = 20261005
 WINDOW_BEFORE = timedelta(minutes=20)
@@ -475,6 +475,52 @@ def build_world(seed: int = SEED) -> World:
     return world
 
 
+# ----------------------------------------------------------------------------- golden set
+EDGE_CASES = [
+    {
+        "id": "edge-01",
+        "input": "",
+        "context": {},
+        "expect": {"contains": ["категорія: unknown"], "not_contains": ["сервіс-причина: payments"]},
+        "tags": ["edge", "bad_input"],
+    },
+    {
+        "id": "edge-02",
+        "input": "Привіт! Скільки буде 2+2?",
+        "context": {},
+        "expect": {"contains": ["категорія: unknown"]},
+        "tags": ["edge", "not_an_alert"],
+    },
+    {
+        "id": "edge-03",
+        "input": "[FIRING:1] HighErrorRate service=billing severity=page\nerror_rate 9.1% > 5% for 5m\n"
+        "startsAt=2026-10-05T14:03:00Z",
+        "context": {},
+        "expect": {"contains": ["категорія: unknown"]},
+        "tags": ["edge", "unknown_service"],
+    },
+]
+
+
+def golden_rows(world: World) -> list[dict]:
+    rows = []
+    for inc in world.incidents:
+        root = inc["root_service"]
+        expect: dict = {"contains": [f"категорія: {inc['category']}", f"сервіс-причина: {root}"]}
+        # substring match: "сервіс-причина: cart" would also match "сервіс-причина: cart-cache"
+        longer = [s for s in SERVICES if s != root and s.startswith(root)]
+        if longer:
+            expect["not_contains"] = [f"сервіс-причина: {s}" for s in longer]
+        if inc["expected_action"]:
+            expect["action_type"] = inc["expected_action"]
+        tags = [inc["category"], "same-service" if inc["root_service"] == inc["alert_service"] else "cross-service"]
+        tags += inc["tags"]
+        if inc["distractor_deploy"]:
+            tags.append("distractor")
+        rows.append({"id": inc["id"], "input": inc["alert_text"], "context": {}, "expect": expect, "tags": tags})
+    return rows + EDGE_CASES
+
+
 def write_all(root: Path, seed: int = SEED) -> World:
     world = build_world(seed)
     data = root / "data" / "demo-shop"
@@ -488,6 +534,11 @@ def write_all(root: Path, seed: int = SEED) -> World:
         (data / f"{name}.jsonl").write_text(
             "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8"
         )
+    evals = root / "evals"
+    evals.mkdir(exist_ok=True)
+    (evals / "golden.jsonl").write_text(
+        "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in golden_rows(world)), encoding="utf-8"
+    )
     return world
 
 

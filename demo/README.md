@@ -24,9 +24,32 @@
 
 ```bash
 uv sync
-make test    # тести, без мережі і без ключа API
-make dev     # API на http://localhost:8000, документація на /docs
+make test                  # тести, без мережі і без ключа API
+cp .env.example .env       # і вписати ANTHROPIC_API_KEY
+make dev                   # API на http://localhost:8000, документація на /docs
 ```
+
+## Evals (з уроку 2)
+
+Інструменти курсу лежать поруч, у `../tools` (шлях змінюється через `CI_TOOLS=...`).
+У другому терміналі, поки працює `make dev`:
+
+```bash
+make eval       # golden set -> evals/results.json, pass_rate, p50/p95, $/1000
+make baseline   # зберегти поточний результат як базовий
+PROMPT_VERSION=v1 make dev   # перезапустити API з іншим промптом, потім make eval
+make compare    # які кейси полагодились, які зламались
+make check      # самоперевірка етапу 2
+```
+
+Модель задається `COPILOT_MODEL` (за замовчуванням `claude-sonnet-5-5`), ціни для `cost_usd` —
+у `app/pricing.py` з датою перевірки.
+
+## Контракт
+
+`POST /ask {"input": "<текст алерту>", "context": {}, "dry_run": true}` повертає `answer`
+у стабільному форматі (`Категорія: ...`, `Сервіс-причина: ...`), `sources` (рядки логів, на які спирається
+діагноз), `actions_proposed` (завжди з `requires_confirmation: true`), `usage` (токени, вартість, latency, модель).
 
 ## demo-shop
 
@@ -44,6 +67,7 @@ gateway -> checkout -> cart -> cart-cache (Redis)
 | `data/demo-shop/metrics.jsonl` | похвилинні метрики: rps, p95, error rate, CPU, памʼять, рестарти, пул зʼєднань, диск |
 | `data/demo-shop/deploys.jsonl` | деплої, зокрема сторонні (відволікаючі) |
 | `data/demo-shop/incidents.jsonl` | **ground truth** 17 інцидентів: категорія, сервіс-причина. Copilot його не бачить |
+| `evals/golden.jsonl` | golden set: 17 алертів з очікуваннями + 3 крайові кейси |
 
 Шість типів збоїв: вичерпаний пул зʼєднань до БД, недоступний кеш, OOM-рестарти, поганий деплой,
 таймаути зовнішнього провайдера, переповнений диск БД. Причина часто не в тому сервісі, на який прийшов алерт.
@@ -60,3 +84,4 @@ uv run python -m demo_shop summary   # що за інцидент за кожн�
 |---|---|
 | `lesson-00` | порожній FastAPI-скелет, demo-shop і його дані |
 | `lesson-01` | правила для агентів (`AGENTS.md`, `CLAUDE.md`), опис проєкту з метрикою, AI-лог, `GET /health` |
+| `lesson-02` | copilot v1: один виклик моделі зі structured output, `POST /ask`, 20 кейсів golden set, два промпти для порівняння, режими відмови |
