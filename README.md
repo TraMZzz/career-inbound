@@ -33,10 +33,10 @@
 
 ```bash
 # студент: перевірити свій проєкт (сервіс запущений на :8000)
-uvx --from "git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools" ci-check --stage 0 --url http://localhost:8000
+uvx --from "git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools" ci-check --stage 0 --url http://localhost:8000
 
 # будь-хто: подивитись демо
-git clone https://github.com/<ORG>/career-inbound && cd career-inbound/demo
+git clone https://github.com/TraMZzz/career-inbound && cd career-inbound/demo
 uv sync && make test
 ```
 

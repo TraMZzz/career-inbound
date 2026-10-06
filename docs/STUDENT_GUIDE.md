@@ -20,7 +20,7 @@
 3. **Обери старт.**
    - **Python:** скопіюй шаблон.
      ```bash
-     git clone --depth 1 https://github.com/<ORG>/career-inbound /tmp/career-inbound
+     git clone --depth 1 https://github.com/TraMZzz/career-inbound /tmp/career-inbound
      cp -R /tmp/career-inbound/starter ~/my-capstone && cd ~/my-capstone
      git init && git add -A && git commit -m "Start from Career Inbound starter"
      uv sync && make test
@@ -35,7 +35,7 @@
    ```bash
    make check STAGE=0          # якщо зі стартера
    # або для будь-якої мови:
-   uvx --from "git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools" \
+   uvx --from "git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools" \
        ci-check --stage 0 --url http://localhost:8000
    ```
    Усі пункти `[x]` — ти готовий до першого уроку.
@@ -72,7 +72,7 @@
 ## Інструменти — шпаргалка
 
 ```bash
-T="git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools"
+T="git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools"
 uvx --from "$T" ci-eval run --url http://localhost:8000          # golden set -> evals/results.json
 cp evals/results.json evals/baseline.json                         # зберегти «до»
 uvx --from "$T" ci-eval compare evals/baseline.json evals/results.json   # «до/після»

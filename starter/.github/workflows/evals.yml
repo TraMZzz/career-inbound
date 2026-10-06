@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  CI_TOOLS: git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools
+  CI_TOOLS: git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools
   MIN_PASS: "0.8"
 
 jobs:

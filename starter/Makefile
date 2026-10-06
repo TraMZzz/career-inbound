@@ -1,5 +1,5 @@
 # Course tools (folder tools/ of the course repo). Override for a local copy: make eval CI_TOOLS=path/to/tools
-CI_TOOLS ?= git+https://github.com/<ORG>/career-inbound@tools-v0.1.0\#subdirectory=tools
+CI_TOOLS ?= git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0\#subdirectory=tools
 URL ?= http://localhost:8000
 STAGE ?= 1
 ENV_FILE := $(if $(wildcard .env),--env-file .env,)

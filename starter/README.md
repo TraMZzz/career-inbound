@@ -10,7 +10,7 @@
 
 ```bash
 # 1. Скопіювати шаблон з репозиторію курсу у свою папку
-git clone --depth 1 https://github.com/<ORG>/career-inbound /tmp/career-inbound
+git clone --depth 1 https://github.com/TraMZzz/career-inbound /tmp/career-inbound
 cp -R /tmp/career-inbound/starter ~/my-capstone && cd ~/my-capstone
 git init && git add -A && git commit -m "Start from Career Inbound starter"
 # 2. Створити СВІЙ публічний репозиторій на GitHub і запушити туди

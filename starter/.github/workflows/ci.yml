@@ -6,7 +6,7 @@ on:
 
 env:
   # Course tools, pinned to a version for the whole cohort (scripts/set-owner.sh fills in the owner).
-  CI_TOOLS: git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools
+  CI_TOOLS: git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools
   # Current capstone stage: set a repository variable CAPSTONE_STAGE (Settings -> Variables), default 1.
   STAGE: ${{ vars.CAPSTONE_STAGE || '1' }}
 

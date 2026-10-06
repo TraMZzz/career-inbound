@@ -10,7 +10,7 @@
 Твій сервіс запущений на `localhost:8000`, ти в корені свого репо:
 
 ```bash
-T="git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools"
+T="git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools"
 uvx --from "$T" ci-check --stage 0 --url http://localhost:8000   # тиждень 0: середовище працює
 uvx --from "$T" ci-check --stage 2 --url http://localhost:8000   # перед здачею етапу 2
 uvx --from "$T" ci-eval run --url http://localhost:8000           # evals/golden.jsonl -> evals/results.json
@@ -40,9 +40,9 @@ POST /ask    <- {"input": "...", "context": {...}, "dry_run": true}
 `uvx` бере їх звідти без встановлення:
 
 ```bash
-uvx --from "git+https://github.com/<ORG>/career-inbound#subdirectory=tools" ci-eval --help
+uvx --from "git+https://github.com/TraMZzz/career-inbound#subdirectory=tools" ci-eval --help
 # зафіксувати версію на весь потік:
-uvx --from "git+https://github.com/<ORG>/career-inbound@tools-v0.1.0#subdirectory=tools" ci-eval --help
+uvx --from "git+https://github.com/TraMZzz/career-inbound@tools-v0.1.0#subdirectory=tools" ci-eval --help
 ```
 
 З локального клону репозиторію курсу:
